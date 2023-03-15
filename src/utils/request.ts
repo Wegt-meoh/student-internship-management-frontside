@@ -11,6 +11,8 @@ export async function request(url: string, auth: boolean, init?: RequestInit) {
     init.headers = {};
   }
 
+  init = { mode: "no-cors", ...init };
+
   if (auth) {
     init.headers = { ...init.headers, Authorization: `Bearer ${getToken()}` };
   }
