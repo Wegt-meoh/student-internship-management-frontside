@@ -8,6 +8,9 @@ module.exports = {
         unlock: "url('/unlock.png')",
         banner: "url('/banner.png')",
       },
+      height: {
+        120: "680px",
+      },
     },
   },
   plugins: [],
