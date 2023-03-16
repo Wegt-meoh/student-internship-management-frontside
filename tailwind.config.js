@@ -6,6 +6,7 @@ module.exports = {
       backgroundImage: {
         user: "url('/user.png')",
         unlock: "url('/unlock.png')",
+        banner: "url('/banner.png')",
       },
     },
   },

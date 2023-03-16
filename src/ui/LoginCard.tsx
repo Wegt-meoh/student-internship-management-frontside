@@ -41,7 +41,7 @@ export default function LoginCard() {
     };
 
   return (
-    <div className=" ring-1 ring-slate-50 py-3 px-6">
+    <div className=" bg-white ring-1 ring-slate-50 py-3 px-6 animate-pulse-once">
       <h1>登录</h1>
       <Input
         iconType="user"
@@ -79,7 +79,7 @@ export default function LoginCard() {
       </div>
       <button
         type="button"
-        className=" mt-12 w-64 h-8 bg-blue-400 text-slate-50 outline-none"
+        className=" mt-6 w-64 h-8 bg-blue-500 text-slate-50 outline-none"
         onClick={buttonOnClick}
       >
         登录
