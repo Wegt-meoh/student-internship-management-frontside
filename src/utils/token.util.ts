@@ -1,5 +1,3 @@
-import { request } from "./request";
-
 export function getToken() {
   return localStorage.getItem("token");
 }

@@ -3,30 +3,46 @@ import { getToken } from "./token.util";
 
 const baseUrl = "http://localhost:8000";
 
+function preHandleRequestInit(init?: RequestInit) {
+  let newInit: RequestInit = { ...init };
+  if (!newInit.headers) {
+    newInit.headers = {};
+  }
+
+  newInit = { mode: "cors", ...init, redirect: "follow" };
+  newInit.headers = {
+    accept: "application/json",
+    "Content-Type": "application/json",
+    ...newInit.headers,
+  };
+
+  return newInit;
+}
+
+function beforeRequest(auth: boolean, init?: RequestInit) {}
+
 export async function request(url: string, auth: boolean, init?: RequestInit) {
-  if (!init) {
-    init = {};
-  }
-  if (!init.headers) {
-    init.headers = {};
-  }
-
-  init = { mode: "no-cors", ...init };
-
+  init = preHandleRequestInit(init);
   if (auth) {
     init.headers = { ...init.headers, Authorization: `Bearer ${getToken()}` };
   }
-  try {
-    const res = await fetch(`${baseUrl}${url}`, init);
-    switch (res.status) {
-      case httpStatus.SUCC: {
-        return Promise.resolve(res);
-      }
-      default: {
-        return Promise.reject(res);
-      }
+  let res = await fetch(`${baseUrl}${url}`, init);
+
+  switch (res.status) {
+    case httpStatus.UNAUTHORIZE: {
+      location.href = "/login";
+      break;
     }
-  } catch (error) {
-    return Promise.reject(error);
+    case httpStatus.SUCC:
+    case httpStatus.SUCC_POST: {
+      return await res.json();
+    }
+    case httpStatus.REDIRECT: {
+      break;
+    }
+    default: {
+      return Promise.reject(await res.json());
+    }
   }
+  return Promise.reject(undefined);
 }

@@ -1,19 +1,19 @@
 "use client";
 
 import { request } from "@/utils/request";
-import { useEffect } from "react";
+import clsx from "clsx";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [content, setContent] = useState("");
+
   useEffect(() => {
-    request("/", true, { mode: "no-cors" })
-      .then((res) => {
-        console.log("succ");
-        console.log(res);
-      })
-      .catch(() => {
-        location.href = "/login";
-      });
+    request("/", true).then((res) => {
+      setContent(res.message);
+      setOpen(true);
+    });
   }, []);
 
-  return <div></div>;
+  return <div className={clsx({ hidden: !open, block: open })}>{content}</div>;
 }
