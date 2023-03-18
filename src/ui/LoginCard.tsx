@@ -1,22 +1,17 @@
 "use client";
 
+import { login } from "@/api/login";
 import { regMobileCN, regPassword } from "@/utils/reg.util";
-import { request } from "@/utils/request";
 import { saveRole } from "@/utils/role";
 import { saveToken } from "@/utils/token.util";
-import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import EyeSvg from "./EyeSvg";
 import Message from "./Message";
-import PasswordInput from "./PasswordInput";
-
-type InputOnChange = React.InputHTMLAttributes<HTMLInputElement>["onChange"];
 
 export default function LoginCard() {
   const [messagePhone, setMessagePhone] = useState("");
   const [messagePassword, setMessagePassword] = useState("");
   const [passwordInputState, setPasswordInputState] = useState(true);
-  const [role, setRole] = useState<"student" | "teacher">("student");
 
   const buttonOnClick = () => {
     setMessagePhone("");
@@ -45,17 +40,18 @@ export default function LoginCard() {
       return;
     }
 
-    request(`/${role}/login`, false, {
-      method: "POST",
-      body: JSON.stringify({
-        phone: phone,
-        password: password,
-      }),
-    })
+    login(phone, password, role)
       .then((res) => {
         saveToken(res.token);
         saveRole(res.role);
-        location.href = "/";
+        const { role } = res;
+        if (role === "student") {
+          location.href = "/student";
+        } else if (role === "teacher") {
+          location.href = "/teacher";
+        } else {
+          location.href = "/login";
+        }
       })
       .catch((err) => {
         console.log(err);

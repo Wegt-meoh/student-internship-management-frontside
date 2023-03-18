@@ -1,19 +1,23 @@
 "use client";
 
-import { request } from "@/utils/request";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
+import { getRole } from "@/utils/role";
+import { useEffect } from "react";
 
-export default function Home() {
-  const [open, setOpen] = useState(false);
-  const [content, setContent] = useState("");
-
+export default function Page() {
   useEffect(() => {
-    request("/", true).then((res) => {
-      setContent(res.message);
-      setOpen(true);
-    });
-  }, []);
+    const role = getRole();
+    switch (role) {
+      case "teacher": {
+        redirect("/teacher");
+      }
+      case "student": {
+        redirect("student");
+      }
 
-  return <div className={clsx({ hidden: !open, block: open })}>{content}</div>;
+      default: {
+        redirect("/login");
+      }
+    }
+  });
 }

@@ -9,9 +9,9 @@ function preHandleRequestInit(init?: RequestInit) {
     newInit.headers = {};
   }
 
-  newInit = { mode: "cors", ...init, redirect: "follow" };
+  newInit = { mode: "cors", redirect: "follow", ...newInit };
   newInit.headers = {
-    accept: "application/json",
+    Accept: "application/json",
     "Content-Type": "application/json",
     ...newInit.headers,
   };
