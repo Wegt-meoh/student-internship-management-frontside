@@ -12,6 +12,7 @@ export default function LoginCard() {
   const [messagePhone, setMessagePhone] = useState("");
   const [messagePassword, setMessagePassword] = useState("");
   const [passwordInputState, setPasswordInputState] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   const buttonOnClick = () => {
     setMessagePhone("");
@@ -40,6 +41,8 @@ export default function LoginCard() {
       return;
     }
 
+    setDisabled(true);
+
     login(phone, password, role)
       .then((res) => {
         saveToken(res.token);
@@ -54,7 +57,10 @@ export default function LoginCard() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.message);
+      })
+      .finally(() => {
+        setDisabled(false);
       });
   };
 
@@ -108,6 +114,7 @@ export default function LoginCard() {
         </label>
       </div>
       <button
+        disabled={disabled}
         type="button"
         className=" rounded-sm mt-6 w-72 h-8 bg-blue-500 text-slate-50 outline-none"
         onClick={buttonOnClick}
