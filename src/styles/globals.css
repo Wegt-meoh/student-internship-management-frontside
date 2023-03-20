@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.no-bg-scrollbar{    
+    scrollbar-color: rgba(0,0,0,0.2) transparent;    
+}
+
+.no-bg-scrollbar::-webkit-scrollbar,.no-bg-scrollbar::-webkit-scrollbar-track,.no-bg-scrollbar::-webkit-scrollbar-thumb{
+    width: 8px;
+    background-color: transparent    
+}
+
+.no-bg-scrollbar:hover::-webkit-scrollbar-thumb{
+    background-color: rgba(255, 254, 254, 0.2);
+    border-radius: 4px;
+}
