@@ -8,19 +8,19 @@ const teacherNavigation: NavigationData = [
     children: [
       {
         label: "岗位查看",
-        target: "",
+        target: "list",
       },
       {
         label: "岗位添加",
-        target: "",
+        target: "add",
       },
       {
         label: "岗位删除",
-        target: "",
+        target: "delete",
       },
       {
         label: "岗位分配",
-        target: "",
+        target: "check",
       },
     ],
   },
@@ -30,11 +30,11 @@ const teacherNavigation: NavigationData = [
     children: [
       {
         label: "查看报告",
-        target: "",
+        target: "list",
       },
       {
         label: "报告评阅",
-        target: "",
+        target: "judge",
       },
     ],
   },
@@ -46,7 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="no-bg-scrollbar fixed top-0 left-0 h-screen overflow-y-scroll w-48 bg-slate-800">
         <Navigation data={teacherNavigation} prefix={"teacher"} />
       </div>
-      {children}
+      <div className=" pl-48">{children}</div>
     </div>
   );
 }

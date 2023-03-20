@@ -4,16 +4,18 @@ import { NavigationData } from "@/types/navigation";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import path from "path";
 import { useState } from "react";
-import RowDownSvg from "./RowDownSvg";
-import RowRightSvg from "./RowRightSvg";
+import RowSvg from "./RowSvg";
 
 export default function Navigation({
   data,
+  prefix,
 }: {
   prefix: string;
   data: NavigationData;
 }) {
+  const pathname = usePathname();
   const [openUl, setOpenUl] = useState("");
   function handleLiClick(ulTitile: string) {
     if (ulTitile === openUl) {
@@ -52,7 +54,7 @@ export default function Navigation({
                       className="hover:bg-slate-600 w-full bg-slate-800 rounded-r-lg rounded-br-lg"
                     >
                       <Link
-                        href={anchorItem.target}
+                        href={path.join(prefix, item.module, anchorItem.target)}
                         className="w-full h-full block px-2 py-2"
                       >
                         {anchorItem.label}
@@ -94,7 +96,7 @@ function LiHead({
       {icon}
       <div className="px-3 py-2">{title}</div>
       <span className=" absolute right-2 top-2">
-        {isOpen ? <RowDownSvg /> : <RowRightSvg />}
+        <RowSvg direction={isOpen ? "down" : "right"} />
       </span>
     </div>
   );
