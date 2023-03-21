@@ -33,7 +33,7 @@ const teacherNavigation: NavigationData = [
         target: "list",
       },
       {
-        label: "报告评阅",
+        label: "报告sadkfjlasdjflkjsdlkj评阅",
         target: "judge",
       },
     ],

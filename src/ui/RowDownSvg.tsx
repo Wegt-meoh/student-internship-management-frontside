@@ -1,22 +1,14 @@
-import { Direction } from "@/types/direction";
-import clsx from "clsx";
-
-// if direction is undefined row's direction is down
-export default function RowSvg({ direction }: { direction?: Direction }) {
+export default function RowDownSvg() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
       viewBox="0 0 20 20"
-      className={clsx(`duration-100 ease-in transition`, {
-        "-rotate-90": direction === "right",
-        "-rotate-180": direction === "up",
-        " rotate-90": direction === "left",
-      })}
+      className="duration-100 ease-in transition rotate-0"
       style={{ minWidth: "20px", minHeight: "20px" }}
     >
-      <g fill="none" fillRule="evenodd" transform="translate(-446 -398)">
+      <g fill="none" fill-rule="evenodd" transform="translate(-446 -398)">
         <path
           fill="currentColor"
           fillRule="nonzero"
