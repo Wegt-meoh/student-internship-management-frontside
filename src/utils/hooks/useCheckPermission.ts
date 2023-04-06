@@ -13,20 +13,8 @@ export function useCheckPermission() {
     if (!token || !role) {
       redirect("/login");
     }
-    switch (role) {
-      case "teacher":
-      case "student": {
-        if (pathname.slice(1).indexOf(role) !== 0) {
-          redirect("/teacher");
-        }
-        break;
-      }
-      default: {
-        redirect("/login");
-      }
-    }
+
     setHidden(false);
   }, [pathname]);
-
   return hidden;
 }
