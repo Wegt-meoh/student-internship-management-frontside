@@ -45,9 +45,11 @@ export default function Navigation({
 
   return (
     <div role="navigation" className=" w-full text-slate-400 bg-slate-800">
-      <div className=" px-2 py-4">
-        {prefix === "teacher" ? "教师模块" : "学生模块"}
-      </div>
+      <Link href={"/" + prefix}>
+        <div className=" px-2 py-4">
+          {prefix === "teacher" ? "教师模块" : "学生模块"}
+        </div>
+      </Link>
       <ul>
         {data.map((item) => {
           return (

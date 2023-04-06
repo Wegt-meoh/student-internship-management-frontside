@@ -10,7 +10,7 @@ export default function Page() {
     location.href = "/login";
   }
   return (
-    <div className="">
+    <div>
       <button
         type="button"
         onClick={logout}

@@ -1,6 +1,11 @@
 import { teacherNavigation } from "@/routes/teacher";
-import Header from "@/ui/TeacherHeader";
+import BreadCrumb from "@/ui/BreadCrumb";
 import Navigation from "@/ui/Navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "教师模块",
+};
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,8 +14,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Navigation data={teacherNavigation} prefix={"teacher"} />
       </div>
       <div className=" pl-48">
+        <div className=" h-12">head....</div>
         <div className=" h-12">
-          <Header />
+          <BreadCrumb />
         </div>
         {children}
       </div>
