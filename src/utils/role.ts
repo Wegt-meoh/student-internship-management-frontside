@@ -1,6 +1,6 @@
 import { SystemRole } from "@/types/role";
 
-export function saveRole(role: SystemRole) {
+export function saveRole(role: string) {
   localStorage.setItem("role", role);
 }
 

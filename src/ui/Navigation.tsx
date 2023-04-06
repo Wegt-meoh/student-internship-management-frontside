@@ -17,7 +17,15 @@ export default function Navigation({
   data: NavigationData;
 }) {
   const pathname = usePathname();
-  const [openUl, setOpenUl] = useState("");
+  const [openUl, setOpenUl] = useState(() => {
+    let res = "";
+    data.forEach((item) => {
+      if (pathname.includes(item.module)) {
+        res = item.module;
+      }
+    });
+    return res;
+  });
 
   function handleUlFold(ulTitile: string) {
     if (ulTitile === openUl) {
@@ -37,7 +45,9 @@ export default function Navigation({
 
   return (
     <div role="navigation" className=" w-full text-slate-400 bg-slate-800">
-      <div className=" px-2 py-4">logo</div>
+      <div className=" px-2 py-4">
+        {prefix === "teacher" ? "教师模块" : "学生模块"}
+      </div>
       <ul>
         {data.map((item) => {
           return (

@@ -26,23 +26,20 @@ export async function request(url: string, auth: boolean, init?: RequestInit) {
   if (auth) {
     init.headers = { ...init.headers, Authorization: `Bearer ${getToken()}` };
   }
-  let res = await fetch(`${baseUrl}${url}`, init);
 
-  switch (res.status) {
-    case httpStatus.UNAUTHORIZE: {
-      location.href = "/login";
-      break;
+  try {
+    let res = await fetch(`${baseUrl}${url}`, init);
+
+    switch (res.status) {
+      case httpStatus.UNAUTHORIZE: {
+        location.href = "/login";
+        return Promise.reject(undefined);
+      }
+      default: {
+        return await res.json();
+      }
     }
-    case httpStatus.SUCC:
-    case httpStatus.SUCC_POST: {
-      return await res.json();
-    }
-    case httpStatus.REDIRECT: {
-      break;
-    }
-    default: {
-      return Promise.reject(await res.json());
-    }
+  } catch (error) {
+    return Promise.reject(undefined);
   }
-  return Promise.reject(undefined);
 }

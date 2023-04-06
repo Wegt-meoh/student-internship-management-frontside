@@ -4,12 +4,13 @@ import { getRole } from "./role";
 import { getToken } from "./token.util";
 
 export function useCheckPermission() {
+  console.log("check permission");
   const [hidden, setHidden] = useState(true);
   const pathname = usePathname();
   useEffect(() => {
     const role = getRole();
     const token = getToken();
-    if (!token) {
+    if (!token || !role) {
       redirect("/login");
     }
     switch (role) {

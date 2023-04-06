@@ -1,6 +1,7 @@
 "use client";
 
 import { login } from "@/api/login";
+import httpStatus from "@/constants/httpStatus";
 import { showNotification } from "@/utils/notification";
 import { regMobileCN, regPassword } from "@/utils/reg.util";
 import { saveRole } from "@/utils/role";
@@ -33,19 +34,26 @@ export default function LoginCard() {
 
     login(phone, password, role)
       .then((res) => {
-        saveToken(res.token);
-        saveRole(res.role);
-        const { role } = res;
-        if (role === "student") {
-          location.href = "/student";
-        } else if (role === "teacher") {
-          location.href = "/teacher";
-        } else {
-          location.href = "/login";
+        const { statusCode, message, data } = res;
+        const { name, role, token, facuties } = data.info;
+        switch (statusCode) {
+          case httpStatus.SUCC:
+          case httpStatus.SUCC_POST: {
+            saveToken(token);
+            saveRole(role);
+            if (role === "student") {
+              location.href = "/student";
+            } else if (role === "teacher") {
+              location.href = "/teacher";
+            } else {
+              location.href = "/login";
+            }
+            break;
+          }
+          default: {
+            showNotification({ text: message, duration: 3000 });
+          }
         }
-      })
-      .catch((err) => {
-        showNotification({ text: err.message, duration: 3000 });
       })
       .finally(() => {
         setDisabled(false);

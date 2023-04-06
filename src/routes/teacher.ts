@@ -10,14 +10,6 @@ export const teacherNavigation: NavigationData = [
         target: "list",
       },
       {
-        label: "岗位添加",
-        target: "add",
-      },
-      {
-        label: "岗位删除",
-        target: "delete",
-      },
-      {
         label: "岗位分配",
         target: "check",
       },
