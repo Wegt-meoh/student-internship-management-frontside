@@ -1,9 +1,8 @@
-import RouterGuard from "@/ui/RouterGuard";
 import { teacherNavigation } from "@/routes/teacher";
 import Header from "@/ui/TeacherHeader";
 import Navigation from "@/ui/Navigation";
 
-export default function Template({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <div className="no-bg-scrollbar fixed top-0 left-0 h-screen overflow-y-scroll w-48 bg-slate-800">
