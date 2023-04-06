@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "toastify-js/src/toastify.css";
+
 .no-bg-scrollbar{    
     scrollbar-color: rgba(0,0,0,0.2) transparent;    
 }
