@@ -3,5 +3,5 @@
 import RouterGuard from "@/ui/RouterGuard";
 
 export default function Page() {
-  return <RouterGuard>student page</RouterGuard>;
+  return <div>student page</div>;
 }
