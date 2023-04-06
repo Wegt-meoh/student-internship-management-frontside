@@ -1,4 +1,4 @@
-export default {
+export const httpStatus = {
   SUCC: 200,
   SUCC_POST: 201,
   REDIRECT: 301,

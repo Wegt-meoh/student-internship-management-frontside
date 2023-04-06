@@ -1,6 +1,6 @@
 "use client";
 
-import { useCheckPermission } from "@/utils/hooks";
+import { useCheckPermission } from "@/utils/hooks/useCheckPermission";
 import clsx from "clsx";
 
 export default function RouterGuard({

@@ -23,7 +23,7 @@ export default function FolderUl({
       sumHeight += childrenList[i].clientHeight;
     }
     return `${sumHeight}px`;
-  }, [children]);
+  }, []);
 
   useEffect(() => {
     if (open) {

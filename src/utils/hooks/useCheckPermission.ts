@@ -1,7 +1,7 @@
 import { redirect, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getRole } from "./role";
-import { getToken } from "./token.util";
+import { getRole } from "../role";
+import { getToken } from "../token.util";
 
 export function useCheckPermission() {
   console.log("check permission");
@@ -26,7 +26,7 @@ export function useCheckPermission() {
       }
     }
     setHidden(false);
-  });
+  }, [pathname]);
 
   return hidden;
 }
