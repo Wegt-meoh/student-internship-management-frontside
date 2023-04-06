@@ -1,4 +1,4 @@
-import httpStatus from "@/constants/httpStatus";
+import { httpStatus } from "@/constants/httpStatus";
 import { getToken } from "./token.util";
 
 const baseUrl = "http://localhost:8000";

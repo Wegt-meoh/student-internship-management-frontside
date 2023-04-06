@@ -1,7 +1,7 @@
 "use client";
 
 import { login } from "@/api/login";
-import httpStatus from "@/constants/httpStatus";
+import { httpStatus } from "@/constants/httpStatus";
 import { showNotification } from "@/utils/notification";
 import { regMobileCN, regPassword } from "@/utils/reg.util";
 import { saveRole } from "@/utils/role";
