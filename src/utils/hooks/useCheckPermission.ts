@@ -1,20 +1,24 @@
-import { redirect, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getRole } from "../role";
 import { getToken } from "../token.util";
 
 export function useCheckPermission() {
-  console.log("check permission");
   const [hidden, setHidden] = useState(true);
   const pathname = usePathname();
+  const router = useRouter();
   useEffect(() => {
     const role = getRole();
     const token = getToken();
     if (!token || !role) {
-      redirect("/login");
-    }
+      router.push("/login");
+    } else {
+      setHidden(false);
 
-    setHidden(false);
-  }, [pathname]);
+      if (!pathname || !pathname.includes(role)) {
+        router.push("/" + role);
+      }
+    }
+  }, [pathname, router]);
   return hidden;
 }

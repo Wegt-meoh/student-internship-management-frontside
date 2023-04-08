@@ -20,7 +20,7 @@ export default function Navigation({
   const [openUl, setOpenUl] = useState(() => {
     let res = "";
     data.forEach((item) => {
-      if (pathname.includes(item.module)) {
+      if (pathname && pathname.includes(item.module)) {
         res = item.module;
       }
     });
@@ -37,7 +37,7 @@ export default function Navigation({
 
   useEffect(() => {
     data.forEach((item) => {
-      if (pathname.includes(item.module)) {
+      if (pathname && pathname.includes(item.module)) {
         setOpenUl(item.module);
       }
     });

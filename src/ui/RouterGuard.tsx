@@ -9,7 +9,9 @@ export default function RouterGuard({
   children: React.ReactNode;
 }) {
   const hidden = useCheckPermission();
-  return (
-    <div className={clsx({ hidden: hidden, block: !hidden })}>{children}</div>
-  );
+
+  if (hidden) {
+    return null;
+  }
+  return <>{children}</>;
 }
