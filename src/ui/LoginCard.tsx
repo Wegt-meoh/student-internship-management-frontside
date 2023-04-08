@@ -6,6 +6,8 @@ import { showNotification } from "@/utils/notification";
 import { regMobileCN, regPassword } from "@/utils/reg.util";
 import { saveRole } from "@/utils/role";
 import { saveToken } from "@/utils/token.util";
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import EyeSvg from "./EyeSvg";
 
@@ -13,6 +15,7 @@ export default function LoginCard() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
+  const router = useRouter();
   const [passwordInputState, setPasswordInputState] = useState(true);
   const [disabled, setDisabled] = useState(false);
 
@@ -35,18 +38,20 @@ export default function LoginCard() {
     login(phone, password, role)
       .then((res) => {
         const { statusCode, message, data } = res;
-        const { name, role, token, facuties } = data.info;
         switch (statusCode) {
           case httpStatus.SUCC:
           case httpStatus.SUCC_POST: {
+            const { name, role, token, facuties } = data.info;
             saveToken(token);
             saveRole(role);
             if (role === "student") {
-              location.href = "/student";
+              router.push("/student");
+              //   location.href = "/student";
             } else if (role === "teacher") {
-              location.href = "/teacher";
+              router.push("/teacher");
+              //   location.href = "/teacher";
             } else {
-              location.href = "/login";
+              router.replace("/login");
             }
             break;
           }
