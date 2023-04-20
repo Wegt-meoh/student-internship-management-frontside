@@ -2,12 +2,14 @@
 
 import { removeRole } from "@/utils/role";
 import { removeToken } from "@/utils/token.util";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   function logout() {
     removeRole();
     removeToken();
-    location.href = "/login";
+    router.replace("/login");
   }
   return (
     <div>

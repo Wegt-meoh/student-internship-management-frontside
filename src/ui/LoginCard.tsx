@@ -5,7 +5,7 @@ import { RoleEnum } from "@/constants/RoleEnum";
 import { showNotification } from "@/utils/notification";
 import { regMobileCN, regPassword } from "@/utils/reg.util";
 import { saveToken } from "@/utils/token.util";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { InputContainer } from "./InputContainer";
 
@@ -39,9 +39,9 @@ export default function LoginCard() {
         saveToken(token);
 
         if (role === RoleEnum.STUDENT) {
-          redirect("/home/student");
+          router.push("/home/student");
         } else if (role === RoleEnum.TEACHER) {
-          redirect("/home/teacher");
+          router.push("/home/teacher");
         } else {
           alert("unknow role");
         }

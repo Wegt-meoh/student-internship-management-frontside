@@ -35,8 +35,16 @@ export default function HomeEntry({ children }: { children: React.ReactNode }) {
             path: "/home",
             role: RoleEnum.EVERYONE,
             children: [
-              { path: "/student", role: RoleEnum.STUDENT },
-              { path: "/teacher", role: RoleEnum.TEACHER },
+              {
+                path: "/student",
+                role: RoleEnum.STUDENT,
+                children: [{ path: "/*", role: RoleEnum.STUDENT }],
+              },
+              {
+                path: "/teacher",
+                role: RoleEnum.TEACHER,
+                children: [{ path: "/*", role: RoleEnum.TEACHER }],
+              },
             ],
           },
         ]}

@@ -50,12 +50,17 @@ function judge(
   userRole: RoleEnum
 ): Result {
   for (let rule of rules) {
+    if (rule.path.indexOf("/*") === 0) {
+      return checkPermission(rule.role, userRole)
+        ? Result.ACCESS
+        : Result.FORBBIDEN;
+    }
+
     if (pathname.indexOf(rule.path) !== 0) continue;
     if (pathname === rule.path) {
-      if (rule.role === RoleEnum.EVERYONE || rule.role === userRole) {
-        return Result.ACCESS;
-      }
-      return Result.FORBBIDEN;
+      return checkPermission(rule.role, userRole)
+        ? Result.ACCESS
+        : Result.FORBBIDEN;
     }
     if (!rule.children) {
       return Result.NOTFOUND;
@@ -63,4 +68,11 @@ function judge(
     return judge(rule.children, pathname.replace(rule.path, ""), userRole);
   }
   return Result.NOTFOUND;
+}
+
+function checkPermission(ruleRole: RoleEnum, userRole: RoleEnum): boolean {
+  if (ruleRole === RoleEnum.EVERYONE) {
+    return true;
+  }
+  return ruleRole === userRole;
 }
