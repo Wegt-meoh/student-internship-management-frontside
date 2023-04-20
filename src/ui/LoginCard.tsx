@@ -1,22 +1,18 @@
 "use client";
 
 import { login } from "@/api/login";
-import { httpStatus } from "@/constants/httpStatus";
+import { RoleEnum } from "@/constants/RoleEnum";
 import { showNotification } from "@/utils/notification";
 import { regMobileCN, regPassword } from "@/utils/reg.util";
-import { saveRole } from "@/utils/role";
 import { saveToken } from "@/utils/token.util";
-import { useRouter } from "next/navigation";
-
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
-import EyeSvg from "./EyeSvg";
+import { InputContainer } from "./InputContainer";
 
 export default function LoginCard() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student");
   const router = useRouter();
-  const [passwordInputState, setPasswordInputState] = useState(true);
   const [disabled, setDisabled] = useState(false);
 
   const handleSubmit = () => {
@@ -35,29 +31,19 @@ export default function LoginCard() {
 
     setDisabled(true);
 
-    login(phone, password, role)
+    login(phone, password)
       .then((res) => {
-        const { statusCode, message, data } = res;
-        switch (statusCode) {
-          case httpStatus.SUCC:
-          case httpStatus.SUCC_POST: {
-            const { name, role, token, facuties } = data.info;
-            saveToken(token);
-            saveRole(role);
-            if (role === "student") {
-              router.push("/student");
-              //   location.href = "/student";
-            } else if (role === "teacher") {
-              router.push("/teacher");
-              //   location.href = "/teacher";
-            } else {
-              router.replace("/login");
-            }
-            break;
-          }
-          default: {
-            showNotification({ text: message, duration: 3000 });
-          }
+        const { token, info } = res;
+        const { role } = info;
+
+        saveToken(token);
+
+        if (role === RoleEnum.STUDENT) {
+          redirect("/home/student");
+        } else if (role === RoleEnum.TEACHER) {
+          redirect("/home/teacher");
+        } else {
+          alert("unknow role");
         }
       })
       .finally(() => {
@@ -100,52 +86,10 @@ export default function LoginCard() {
               setPassword(e.target.value);
             }}
             placeholder="请输入密码"
-            type={passwordInputState ? "password" : "text"}
+            type="password"
             className=" px-2 py-1 outline-none flex-1"
           />
-          <div
-            className="hover:cursor-pointer"
-            onClick={() => {
-              setPasswordInputState((f) => !f);
-            }}
-          >
-            <EyeSvg open={passwordInputState} />
-          </div>
         </InputContainer>
-        <div className=" mt-4 flex items-center justify-evenly h-7">
-          <label className=" hover:cursor-pointer">
-            <input
-              disabled={disabled}
-              type="radio"
-              checked={role === "student"}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setRole("student");
-                }
-              }}
-              name="role"
-              value="student"
-              className=" mr-2"
-            />
-            学生
-          </label>
-          <label className=" hover:cursor-pointer">
-            <input
-              disabled={disabled}
-              type="radio"
-              checked={role === "teacher"}
-              name="role"
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setRole("teacher");
-                }
-              }}
-              className=" mr-2"
-              value="teacher"
-            />
-            教师
-          </label>
-        </div>
         <button
           disabled={disabled}
           type="submit"
@@ -154,23 +98,6 @@ export default function LoginCard() {
           登录
         </button>
       </form>
-    </div>
-  );
-}
-
-function InputContainer({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      onFocus={(e) => {
-        e.currentTarget.classList.add("ring-2", "ring-slate-400");
-      }}
-      onBlur={(e) => {
-        e.currentTarget.classList.remove("ring-2", "ring-slate-400");
-      }}
-      className="mt-4 w-72 rounded-sm overflow-hidden relative
-       ring-1 ring-slate-200 px-2 flex items-center"
-    >
-      {children}
     </div>
   );
 }

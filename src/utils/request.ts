@@ -1,4 +1,6 @@
 import { httpStatus } from "@/constants/httpStatus";
+import { FailedResponseType } from "@/types/failedResponse";
+import { showNotification } from "./notification";
 import { getToken } from "./token.util";
 
 const baseUrl = "http://localhost:8000";
@@ -19,8 +21,6 @@ function preHandleRequestInit(init?: RequestInit) {
   return newInit;
 }
 
-function beforeRequest(auth: boolean, init?: RequestInit) {}
-
 export async function request(url: string, auth: boolean, init?: RequestInit) {
   init = preHandleRequestInit(init);
   if (auth) {
@@ -29,14 +29,19 @@ export async function request(url: string, auth: boolean, init?: RequestInit) {
 
   try {
     let res = await fetch(`${baseUrl}${url}`, init);
-
     switch (res.status) {
+      case httpStatus.SUCC:
+      case httpStatus.SUCC_POST: {
+        return res.json();
+      }
       case httpStatus.UNAUTHORIZE: {
         location.href = "/login";
         return Promise.reject(undefined);
       }
       default: {
-        return await res.json();
+        const resultJson: FailedResponseType = await res.json();
+        showNotification({ text: resultJson.message, duration: 3000 });
+        return Promise.reject(undefined);
       }
     }
   } catch (error) {
