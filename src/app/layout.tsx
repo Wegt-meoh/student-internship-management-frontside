@@ -18,7 +18,7 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <link rel="icon" href="/logo.png" />
       </head>
-      <body className="bg-white">{children}</body>
+      <body className="bg-slate-100">{children}</body>
     </html>
   );
 }

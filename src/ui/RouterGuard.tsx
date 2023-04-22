@@ -3,7 +3,7 @@
 import { RoleEnum } from "@/constants/RoleEnum";
 import { UserInfoContext } from "@/context/user-info.context";
 import { RouterGuardType } from "@/types/router-guard";
-import { notFound, redirect, usePathname } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 import { useContext } from "react";
 
 export default function RouterGuard({
@@ -15,12 +15,9 @@ export default function RouterGuard({
 }) {
   const userInfo = useContext(UserInfoContext);
   const pathName = usePathname();
-  if (!pathName) {
-    alert("pathName is not ready");
+
+  if (!pathName || !userInfo) {
     return null;
-  }
-  if (!userInfo) {
-    redirect("/login");
   }
 
   const { role: userRole } = userInfo;

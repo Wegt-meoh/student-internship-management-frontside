@@ -1,7 +1,7 @@
 import { httpStatus } from "@/constants/httpStatus";
 import { FailedResponseType } from "@/types/failedResponse";
-import { showNotification } from "./notification";
-import { getToken } from "./token.util";
+import { message } from "antd";
+import { getToken, removeToken } from "./token.util";
 
 const baseUrl = "http://localhost:8000";
 
@@ -11,7 +11,7 @@ function preHandleRequestInit(init?: RequestInit) {
     newInit.headers = {};
   }
 
-  newInit = { mode: "cors", redirect: "follow", ...newInit };
+  newInit = { mode: "cors", redirect: "manual", method: "POST", ...newInit };
   newInit.headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -21,6 +21,13 @@ function preHandleRequestInit(init?: RequestInit) {
   return newInit;
 }
 
+/**
+ *
+ * @param url
+ * @param auth does head add Bearer Authorization
+ * @param init default method is POST
+ * @returns
+ */
 export async function request(url: string, auth: boolean, init?: RequestInit) {
   init = preHandleRequestInit(init);
   if (auth) {
@@ -35,12 +42,13 @@ export async function request(url: string, auth: boolean, init?: RequestInit) {
         return res.json();
       }
       case httpStatus.UNAUTHORIZE: {
+        removeToken();
         location.href = "/login";
-        return Promise.reject(undefined);
       }
       default: {
         const resultJson: FailedResponseType = await res.json();
-        showNotification({ text: resultJson.message, duration: 3000 });
+        message.destroy();
+        message.error(resultJson.message, 3);
         return Promise.reject(undefined);
       }
     }

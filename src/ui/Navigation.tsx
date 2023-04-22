@@ -12,7 +12,9 @@ import LiHead from "./LiHead";
 export default function Navigation({
   data,
   prefix,
+  title,
 }: {
+  title: string;
   prefix: string;
   data: NavigationData;
 }) {
@@ -44,11 +46,12 @@ export default function Navigation({
   }, [pathname, data]);
 
   return (
-    <div role="navigation" className=" w-full text-slate-400 bg-slate-800">
-      <Link href={"/" + prefix}>
-        <div className=" px-2 py-4">
-          {prefix === "teacher" ? "教师模块" : "学生模块"}
-        </div>
+    <div
+      role="navigation"
+      className=" w-full text-slate-400 bg-slate-800 text-white"
+    >
+      <Link href={prefix}>
+        <div className=" px-2 py-4">{title}</div>
       </Link>
       <ul>
         {data.map((item) => {
