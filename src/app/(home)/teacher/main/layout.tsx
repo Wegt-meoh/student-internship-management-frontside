@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         <NavigationContainer
           headData={{
-            target: "/home/teacher/main",
+            target: "/teacher/main",
             title: "教师模块",
           }}
           linkData={[
