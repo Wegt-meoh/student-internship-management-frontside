@@ -1,10 +1,10 @@
 "use client";
 
-import { login } from "@/api/login";
+import { login } from "@/api/auth/login";
 import { RoleEnum } from "@/constants/RoleEnum";
 import { regMobileCN, regPassword } from "@/utils/reg.util";
 import { saveToken } from "@/utils/token.util";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, LockTwoTone, UserOutlined } from "@ant-design/icons";
 import { Button, Input, message } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -38,9 +38,9 @@ export default function LoginCard() {
         saveToken(token);
 
         if (role === RoleEnum.STUDENT) {
-          router.push("/home/student");
+          router.replace("/student/main");
         } else if (role === RoleEnum.TEACHER) {
-          router.push("/home/teacher");
+          router.replace("/teacher/main");
         } else {
           alert("unknow role");
         }
@@ -55,7 +55,7 @@ export default function LoginCard() {
       <div className="flex flex-col gap-4">
         <h1 className=" text-lg">登录</h1>
         <Input
-          prefix={<UserOutlined />}
+          prefix={<UserOutlined style={{ color: "rgb(59 130 246 / 0.8)" }} />}
           placeholder="电话号码"
           maxLength={11}
           type="text"
@@ -66,7 +66,7 @@ export default function LoginCard() {
           disabled={disabled}
         />
         <Input.Password
-          prefix={<LockOutlined />}
+          prefix={<LockOutlined style={{ color: "rgb(59 130 246 / 0.8)" }} />}
           disabled={disabled}
           maxLength={24}
           value={password}

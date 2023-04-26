@@ -1,12 +1,10 @@
 import { RoleEnum } from "@/constants/RoleEnum";
 
 export type UserInfoResponseType = {
-  facuties?: string;
-  class?: string;
+  id: number;
   name: string;
   phone: string;
-  role: RoleEnum;
-  teacherId?: number;
-  studentId?: number;
-  userId: 1;
+  role: RoleEnum.TEACHER | RoleEnum.STUDENT;
+  class: string | null;
+  facuties: string | null;
 };

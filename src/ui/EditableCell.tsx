@@ -1,4 +1,4 @@
-import { SearchPostResponseType } from "@/types/post/seach-post.dto";
+import { SearchPostResponseType } from "@/api/post/post/seach-post.dto";
 import { Form, Input, InputNumber } from "antd";
 
 interface EditableCellProps<T> extends React.HTMLAttributes<HTMLElement> {

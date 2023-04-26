@@ -1,5 +1,5 @@
 import { deletePost } from "@/api/post/delete";
-import { SearchPostResponseType } from "@/types/post/seach-post.dto";
+import { SearchPostResponseType } from "@/api/post/post/seach-post.dto";
 import { Table, Space, Button, message } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";

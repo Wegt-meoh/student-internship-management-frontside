@@ -46,10 +46,7 @@ export default function Navigation({
   }, [pathname, data]);
 
   return (
-    <div
-      role="navigation"
-      className=" w-full text-slate-400 bg-slate-800 text-white"
-    >
+    <div role="navigation" className=" w-full text-white bg-slate-800">
       <Link href={prefix}>
         <div className=" px-2 py-4">{title}</div>
       </Link>
