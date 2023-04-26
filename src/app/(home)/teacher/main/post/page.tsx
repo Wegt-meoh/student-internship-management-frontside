@@ -85,7 +85,7 @@ export default function Page() {
         <div className=" flex gap-4 flex-wrap">
           {postData.map((post) => {
             return (
-              <Link key={post.id} href={`/teacher/detail/post/${post.id}`}>
+              <Link key={post.id} href={`/teacher/post/${post.id}`}>
                 <Card className=" w-72 hover:bg-slate-50 hover:border-slate-400 transition-colors">
                   <Space direction="vertical">
                     <h1 className=" text-lg">{post.name}</h1>

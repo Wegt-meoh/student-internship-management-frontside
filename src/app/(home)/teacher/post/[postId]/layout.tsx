@@ -21,12 +21,12 @@ export default function Layout({
           title: "返回",
         }}
         linkData={[
-          { target: `/teacher/detail/post/${postId}`, title: "岗位信息" },
+          { target: `/teacher/post/${postId}`, title: "岗位信息" },
           {
-            target: `/teacher/detail/post/${postId}/student`,
+            target: `/teacher/post/${postId}/student`,
             title: "参与学生",
           },
-          { target: `/teacher/detail/post/${postId}/task`, title: "任务列表" },
+          { target: `/teacher/post/${postId}/task`, title: "任务列表" },
         ]}
       />
       <div className="ml-48 p-2">{children}</div>
