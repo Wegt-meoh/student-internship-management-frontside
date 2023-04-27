@@ -50,18 +50,78 @@ export default function Page() {
           {
             title: "岗位名称",
             dataIndex: "name",
+            filters: Array.from(
+              tableData.reduce((set, item) => {
+                set.add(item.name);
+                return set;
+              }, new Set<string>())
+            ).map((item) => {
+              return {
+                text: item,
+                value: item,
+              };
+            }),
+            filterSearch: true,
+            onFilter: (value, record) => {
+              return record.name.includes(value + "");
+            },
           },
           {
             title: "岗位地点",
-            dataIndex: "name",
+            dataIndex: "position",
+            filters: Array.from(
+              tableData.reduce((set, item) => {
+                set.add(item.position);
+                return set;
+              }, new Set<string>())
+            ).map((item) => {
+              return {
+                text: item,
+                value: item,
+              };
+            }),
+            filterSearch: true,
+            onFilter: (value, record) => {
+              return record.name.includes(value + "");
+            },
           },
           {
             title: "所属公司",
-            dataIndex: "name",
+            dataIndex: "company",
+            filters: Array.from(
+              tableData.reduce((set, item) => {
+                set.add(item.position);
+                return set;
+              }, new Set<string>())
+            ).map((item) => {
+              return {
+                text: item,
+                value: item,
+              };
+            }),
+            filterSearch: true,
+            onFilter: (value, record) => {
+              return record.name.includes(value + "");
+            },
           },
           {
             title: "负责教师",
             dataIndex: ["createdUser", "name"],
+            filters: Array.from(
+              tableData.reduce((set, item) => {
+                set.add(item.createdUser.name);
+                return set;
+              }, new Set<string>())
+            ).map((item) => {
+              return {
+                text: item,
+                value: item,
+              };
+            }),
+            filterSearch: true,
+            onFilter: (value, record) => {
+              return record.name.includes(value + "");
+            },
           },
           {
             title: "联系电话",
@@ -69,6 +129,21 @@ export default function Page() {
           },
           {
             title: "所属学院",
+            filters: Array.from(
+              tableData.reduce((set, item) => {
+                set.add(item.createdUser.facuties ?? "null");
+                return set;
+              }, new Set<string>())
+            ).map((item) => {
+              return {
+                text: item,
+                value: item,
+              };
+            }),
+            filterSearch: true,
+            onFilter: (value, record) => {
+              return record.name.includes(value + "");
+            },
             dataIndex: ["createdUser", "facuties"],
           },
           {

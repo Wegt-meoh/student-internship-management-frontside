@@ -1,6 +1,9 @@
 "use client";
 
-import { findAllRequestPostUnderTheStudent } from "@/api/requestPost";
+import {
+  deleteRequestPost,
+  findAllRequestPostUnderTheStudent,
+} from "@/api/requestPost";
 import {
   FindAllRequestPostUnderTheStudentVo,
   RequestPostResponseVo,
@@ -12,8 +15,9 @@ import {
   CompassTwoTone,
   HomeTwoTone,
   LoadingOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
-import { List, Space } from "antd";
+import { Button, Input, List, message, Radio, Space } from "antd";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -21,7 +25,28 @@ export default function Page() {
   const [listData, setListData] = useState<FindAllRequestPostUnderTheStudentVo>(
     []
   );
+  const [radioValue, setRadioValue] = useState<RequestPostStatus | null>(null);
+  const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
+  const [buttonDisable, setButtonDisable] = useState(false);
+  const showingListData = listData.filter((item) => {
+    if (searchValue === "") {
+      if (radioValue === null) {
+        return true;
+      } else {
+        return item.status === radioValue;
+      }
+    } else {
+      if (radioValue === null) {
+        return item.targetPost.name.includes(searchValue);
+      } else {
+        return (
+          item.targetPost.name.includes(searchValue) &&
+          item.status === radioValue
+        );
+      }
+    }
+  });
 
   async function fetchListData() {
     setLoading(true);
@@ -30,14 +55,55 @@ export default function Page() {
     setLoading(false);
   }
 
+  async function handleDelete(requestId: number) {
+    try {
+      message.loading("删除岗位申请中...");
+      setButtonDisable(true);
+      const res = await deleteRequestPost(requestId);
+      message.destroy();
+      message.success(res.message);
+      setButtonDisable(false);
+      fetchListData();
+    } catch {
+      setButtonDisable(false);
+    }
+  }
+
   useEffect(() => {
     fetchListData();
   }, []);
 
   return (
-    <div>
+    <div className=" bg-white px-4">
       <List
-        dataSource={listData}
+        header={
+          <div className=" flex justify-between items-center">
+            <div>岗位申请列表</div>
+            <Space>
+              <Radio.Group
+                value={radioValue}
+                onChange={(e) => {
+                  setRadioValue(e.target.value);
+                }}
+              >
+                <Radio value={null}>全部</Radio>
+                <Radio value={RequestPostStatus.PENDING}>处理中</Radio>
+                <Radio value={RequestPostStatus.RESOLVE}>已通过</Radio>
+                <Radio value={RequestPostStatus.REJECT}>拒绝</Radio>
+              </Radio.Group>
+              岗位名称筛选：
+              <Input
+                suffix={<SearchOutlined />}
+                value={searchValue}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                }}
+              />
+            </Space>
+          </div>
+        }
+        loading={loading}
+        dataSource={showingListData}
         renderItem={(item) => {
           return (
             <List.Item>
@@ -56,6 +122,18 @@ export default function Page() {
               />
 
               <Space>
+                {item.status === RequestPostStatus.PENDING ? (
+                  <Button
+                    disabled={buttonDisable}
+                    onClick={() => {
+                      if (confirm("确认删除此申请吗？")) {
+                        handleDelete(item.id);
+                      }
+                    }}
+                  >
+                    删除
+                  </Button>
+                ) : null}
                 {item.status === RequestPostStatus.PENDING ? (
                   <Space>
                     处理中
