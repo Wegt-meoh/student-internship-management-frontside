@@ -35,7 +35,7 @@ export function createPost(
   });
 }
 
-export function FindAllStudentUnderThePost(
+export function findAllStudentUnderThePost(
   postId: number
 ): Promise<FindAllStudentUnderThePostResponseVo> {
   return request(`/post/find/all/student/${postId}`, true, {
@@ -43,7 +43,7 @@ export function FindAllStudentUnderThePost(
   });
 }
 
-export function FindAllTaskUnderThePost(
+export function findAllTaskUnderThePost(
   postId: number
 ): Promise<FindAllTaskUnderThePostResponseVo> {
   return request(`/post/find/all/task/${postId}`, true, {
@@ -51,7 +51,7 @@ export function FindAllTaskUnderThePost(
   });
 }
 
-export function FindAllTaskWithOneReport(
+export function findAllTaskWithOneReport(
   postId: number
 ): Promise<FindAllTaskWithOneReportResponseVo> {
   return request(`/post/find/all/task/and/one/report/${postId}`, true, {

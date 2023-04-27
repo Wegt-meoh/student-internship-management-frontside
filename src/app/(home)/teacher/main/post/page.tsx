@@ -1,6 +1,6 @@
 "use client";
 
-import { findAllPostByUser } from "@/api/post";
+import { createPost, findAllPostByUser } from "@/api/post";
 import { createPostDtoType, PostResponseVo } from "@/api/post/index.type";
 import {
   CompassOutlined,
@@ -8,7 +8,7 @@ import {
   HomeTwoTone,
   PlusOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Form, Input, Modal, Space } from "antd";
+import { Button, Card, Form, Input, message, Modal, Space } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -19,8 +19,10 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
 
   async function fetchPostData() {
+    setLoading(true);
     const data = await findAllPostByUser();
     setPostData(data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -29,7 +31,12 @@ export default function Page() {
 
   async function handleSubmit() {
     setLoading(true);
+    message.loading("添加岗位...");
     const result = await form.validateFields();
+    const res = await createPost(result);
+    message.destroy();
+    message.success(res.message);
+    setLoading(false);
   }
 
   return (
@@ -38,6 +45,7 @@ export default function Page() {
         open={modalOpen}
         onCancel={() => {
           setModalOpen(false);
+          fetchPostData();
         }}
         footer={
           <Button type="primary" onClick={form.submit} disabled={loading}>
