@@ -13,7 +13,7 @@ import {
   HomeTwoTone,
   ToolTwoTone,
 } from "@ant-design/icons";
-import { Button, List, message, Select, Space } from "antd";
+import { Button, List, message, Radio, Select, Space } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -22,6 +22,13 @@ export default function Page() {
     useState<FindAllRequestPostUnderTheTeacherResponseVo>([]);
   const [listLoading, setListLoading] = useState(true);
   const [selectDisable, setSelectDisable] = useState(false);
+  const [radioValue, setRadioValue] = useState<RequestPostStatus>();
+  const showingListData = listData.filter((item) => {
+    if (!radioValue) {
+      return true;
+    }
+    return item.status === radioValue;
+  });
 
   async function fetchListData() {
     setListLoading(true);
@@ -52,13 +59,32 @@ export default function Page() {
   }, []);
 
   return (
-    <div className=" px-3">
+    <div className=" px-4 bg-white">
       <List
-        dataSource={listData}
+        header={
+          <div>
+            处理岗位请求
+            <div className=" float-right">
+              <Radio.Group
+                value={radioValue}
+                onChange={(e) => {
+                  setRadioValue(e.target.value);
+                }}
+              >
+                <Radio value={undefined}>全部</Radio>
+                <Radio value={RequestPostStatus.PENDING}>待处理</Radio>
+                <Radio value={RequestPostStatus.RESOLVE}>已通过</Radio>
+                <Radio value={RequestPostStatus.REJECT}>已拒绝</Radio>
+              </Radio.Group>
+            </div>
+          </div>
+        }
+        dataSource={showingListData}
         loading={listLoading}
         renderItem={(item) => {
           return (
             <List.Item
+              key={item.id}
               actions={[
                 item.status === RequestPostStatus.PENDING ? (
                   <Select

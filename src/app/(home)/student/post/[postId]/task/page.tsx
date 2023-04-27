@@ -20,7 +20,7 @@ export default function Page({ params }: { params: { postId: string } }) {
       return true;
     } else {
       if (item.receivedReportList.length > 0) {
-        return radioValue === TaskReportStatus.NO_COMPLETE;
+        return radioValue === TaskReportStatus.COMPLETE;
       } else {
         return radioValue === TaskReportStatus.NO_COMPLETE;
       }
