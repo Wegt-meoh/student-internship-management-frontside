@@ -2,12 +2,13 @@
 import { ReportResponseVo } from "@/api/report/index.type";
 import { findOneTaskById, findUserReportUnderTheTask } from "@/api/task";
 import { TaskResponseVo } from "@/api/task/index.type";
+import { transformDate } from "@/utils/date.transform";
 import React, { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { taskId: string } }) {
   const { taskId } = params;
   const [taskInfo, setTaskInfo] = useState<TaskResponseVo>();
-  const [reportInfo, setReportInfo] = useState<ReportResponseVo>();
+  const [reportInfo, setReportInfo] = useState<ReportResponseVo[]>();
 
   useEffect(() => {
     Promise.all([
@@ -37,7 +38,7 @@ export default function Page({ params }: { params: { taskId: string } }) {
         <a className=" hover:underline" href={taskInfo.attachmentUrl}>
           附件
         </a>
-        <div>创建时间：{taskInfo.createDate}</div>
+        <div>创建时间：{transformDate(taskInfo.createDate)}</div>
       </div>
     </div>
   );

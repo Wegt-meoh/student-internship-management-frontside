@@ -33,7 +33,7 @@ export function findOneTaskById(id: number): Promise<TaskResponseVo> {
 
 export function findUserReportUnderTheTask(
   id: number
-): Promise<ReportResponseVo> {
+): Promise<ReportResponseVo[]> {
   return request(`/tasks/find/report/by/user/${id}`, true, {
     method: "GET",
   });

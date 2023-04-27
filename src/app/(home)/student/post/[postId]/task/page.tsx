@@ -1,29 +1,29 @@
 "use client";
 
-import { findAllTaskUnderThePost, findAllTaskWithOneReport } from "@/api/post";
+import { findAllTaskWithOneReport } from "@/api/post";
 import { FindAllTaskUnderThePostResponseVo } from "@/api/post/index.type";
 import { TaskReportStatus } from "@/constants/taskReportStatus.enum";
 import { transformDate } from "@/utils/date.transform";
-import { List, Radio, Space } from "antd";
+import { Button, List, Radio, Space } from "antd";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { postId: string } }) {
   const { postId } = params;
-  const [radioValue, setRadioValue] = useState<TaskReportStatus | null>(null);
+  const [radioValue, setRadioValue] = useState<TaskReportStatus>();
   const [listData, setListData] = useState<FindAllTaskUnderThePostResponseVo>(
     []
   );
   const [loading, setLoading] = useState(true);
   const showingListData = listData.filter((item) => {
-    if (radioValue === null) {
+    if (radioValue === undefined) {
       return true;
     } else {
-      if (item.receivedReportList.length > 0) {
-        return radioValue === TaskReportStatus.COMPLETE;
-      } else {
-        return radioValue === TaskReportStatus.NO_COMPLETE;
-      }
+      const currentStatus =
+        item.receivedReportList.length > 0
+          ? TaskReportStatus.COMPLETE
+          : TaskReportStatus.NO_COMPLETE;
+      return currentStatus === radioValue;
     }
   });
 
@@ -32,7 +32,7 @@ export default function Page({ params }: { params: { postId: string } }) {
       setListData(res);
       setLoading(false);
     });
-  });
+  }, []);
 
   return (
     <div className=" bg-white px-4">
@@ -47,7 +47,7 @@ export default function Page({ params }: { params: { postId: string } }) {
                   setRadioValue(e.target.value);
                 }}
               >
-                <Radio value={null}>全部</Radio>
+                <Radio value={undefined}>全部</Radio>
                 <Radio value={TaskReportStatus.COMPLETE}>已提交</Radio>
                 <Radio value={TaskReportStatus.NO_COMPLETE}>未提交</Radio>
               </Radio.Group>
@@ -64,7 +64,13 @@ export default function Page({ params }: { params: { postId: string } }) {
                 <List.Item.Meta title={item.title} description="" />
                 <Space>
                   <div>创建时间： {transformDate(item.createDate)}</div>
-                  <div>{isSubmit ? "已提交" : "未提交"}</div>
+                  <div>
+                    {isSubmit ? (
+                      <Button>已提交</Button>
+                    ) : (
+                      <Button>未提交</Button>
+                    )}
+                  </div>
                 </Space>
               </List.Item>
             </Link>
