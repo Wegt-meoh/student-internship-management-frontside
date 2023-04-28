@@ -4,10 +4,7 @@ import {
   deleteRequestPost,
   findAllRequestPostUnderTheStudent,
 } from "@/api/requestPost";
-import {
-  FindAllRequestPostUnderTheStudentVo,
-  RequestPostResponseVo,
-} from "@/api/requestPost/index.type";
+import { FindAllRequestPostUnderTheStudentVo } from "@/api/requestPost/index.type";
 import { RequestPostStatus } from "@/constants/RequestPostStatus.enum";
 import {
   CheckCircleTwoTone,
@@ -18,20 +15,19 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { Button, Input, List, message, Radio, Space } from "antd";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function Page() {
   const [listData, setListData] = useState<FindAllRequestPostUnderTheStudentVo>(
     []
   );
-  const [radioValue, setRadioValue] = useState<RequestPostStatus | null>(null);
+  const [radioValue, setRadioValue] = useState<RequestPostStatus>();
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
   const [buttonDisable, setButtonDisable] = useState(false);
   const showingListData = listData.filter((item) => {
     if (searchValue === "") {
-      if (radioValue === null) {
+      if (!radioValue) {
         return true;
       } else {
         return item.status === radioValue;
@@ -86,7 +82,7 @@ export default function Page() {
                   setRadioValue(e.target.value);
                 }}
               >
-                <Radio value={null}>全部</Radio>
+                <Radio value={undefined}>全部</Radio>
                 <Radio value={RequestPostStatus.PENDING}>处理中</Radio>
                 <Radio value={RequestPostStatus.RESOLVE}>已通过</Radio>
                 <Radio value={RequestPostStatus.REJECT}>拒绝</Radio>
