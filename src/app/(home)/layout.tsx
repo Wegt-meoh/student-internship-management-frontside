@@ -1,12 +1,12 @@
 "use client";
 
-import { requestUserInfo } from "@/api/user/user-info";
+import { requestUserInfo } from "@/api/user";
+import { UserInfoResponseType } from "@/api/user/index.type";
 import { RoleEnum } from "@/constants/RoleEnum";
 import {
   ClearUserInfoContext,
   UserInfoContext,
 } from "@/context/user-info.context";
-import { UserInfoResponseType } from "@/types/user/info";
 import RouterGuard from "@/ui/RouterGuard";
 import { getToken } from "@/utils/token.util";
 import { redirect } from "next/navigation";

@@ -1,8 +1,8 @@
+import { UserInfoResponseType } from "@/api/user/index.type";
 import {
   ClearUserInfoContext,
   UserInfoContext,
 } from "@/context/user-info.context";
-import { UserInfoResponseType } from "@/types/user/info";
 import { useContext } from "react";
 
 export function useUserInfo(): [
