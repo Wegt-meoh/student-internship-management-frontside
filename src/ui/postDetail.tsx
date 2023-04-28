@@ -27,11 +27,11 @@ export default function PostDetail({ postId }: { postId: string }) {
         <div>岗位地点：{postInfo.position}</div>
         <div>所属公司：{postInfo.company}</div>
         <div>岗位描述：</div>
-        <p className=" ml-8 mt-4">
-          {postInfo.description.split("\n").map((slice) => {
-            return <p>{slice}</p>;
+        <article className=" ml-8 mt-4">
+          {postInfo.description.split("\n").map((slice, index) => {
+            return <p key={index}>{slice}</p>;
           })}
-        </p>
+        </article>
       </div>
     </div>
   );

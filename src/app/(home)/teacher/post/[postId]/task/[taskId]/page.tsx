@@ -122,7 +122,11 @@ export default function Page({
           <Space className="" direction="vertical">
             <div>发布时间： {transformDate(taskInfo.createDate)}</div>
             <div>任务描述：</div>
-            <p className=" pl-8">{taskInfo.description}</p>
+            <article className=" pl-8">
+              {taskInfo.description.split("\n").map((slice, index) => {
+                return <p key={index}>{slice}</p>;
+              })}
+            </article>
             {taskInfo.attachmentUrl && (
               <div>
                 附件： <FileZipOutlined />
