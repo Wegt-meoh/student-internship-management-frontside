@@ -1,9 +1,8 @@
 "use client";
 
-import { getUserInfoById, requestUserInfo } from "@/api/user";
+import { getUserInfoById } from "@/api/user";
 import { UserInfoResponseType } from "@/api/user/index.type";
 import { FileOutlined } from "@ant-design/icons";
-import { Button, Space } from "antd";
 import React, { useEffect, useState } from "react";
 
 export default function StudentInfo({ userId }: { userId: number }) {
@@ -12,7 +11,7 @@ export default function StudentInfo({ userId }: { userId: number }) {
     getUserInfoById(userId).then((res) => {
       setUserInfo(res);
     });
-  }, []);
+  }, [userId]);
 
   if (!userInfo) return <div>loading...</div>;
 
