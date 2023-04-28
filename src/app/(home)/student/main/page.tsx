@@ -1,9 +1,14 @@
 "use client";
 
-import { updateUserInfo, updateUserPassword } from "@/api/user";
+import {
+  requestUserInfo,
+  updateUserInfo,
+  updateUserPassword,
+} from "@/api/user";
 import {
   UpdateUserInfoDto,
   UpdateUserPasswordDto,
+  UserInfoResponseType,
 } from "@/api/user/index.type";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { regPassword } from "@/utils/reg.util";
@@ -20,29 +25,28 @@ import {
   UploadFile,
 } from "antd";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page() {
-  const [userInfo, clearUserInfo] = useUserInfo();
+  const [_, clearUserInfo] = useUserInfo();
   const [userInfoModalOpen, setUserInfoModal] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [userInfoForm] = Form.useForm<UpdateUserInfoDto>();
   const [passwordForm] = Form.useForm<UpdateUserPasswordDto>();
   const [buttonDisable, setButtonDisable] = useState(false);
   const router = useRouter();
-  const [fileList, setFileList] = useState<UploadFile[]>(() => {
-    if (userInfo?.attachmentUrl) {
-      return [
-        {
-          uid: "-1",
-          name: "附件1",
-          url: userInfo?.attachmentUrl,
-        },
-      ];
-    } else {
-      return [];
-    }
-  });
+  const [userInfo, setUserInfo] = useState<UserInfoResponseType>();
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  async function fetchUserInfo() {
+    setUserInfo(undefined);
+    const res = await requestUserInfo();
+    setUserInfo(res);
+  }
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   function logout() {
     removeToken();
@@ -66,6 +70,7 @@ export default function Page() {
       message.destroy();
       message.success(res.message);
       setButtonDisable(false);
+      fetchUserInfo();
     } catch {
       setButtonDisable(false);
     }
@@ -86,8 +91,6 @@ export default function Page() {
     }
   }
 
-  if (!userInfo) return null;
-
   return (
     <div className="bg-white p-2">
       <Modal
@@ -107,11 +110,7 @@ export default function Page() {
         }
       >
         <Form form={userInfoForm}>
-          <Form.Item
-            label="个人简介"
-            name="description"
-            initialValue={userInfo.description ?? undefined}
-          >
+          <Form.Item label="个人简介" name="description">
             <Input.TextArea />
           </Form.Item>
           <Upload
@@ -234,28 +233,30 @@ export default function Page() {
           </Button>
         </Space>
       </h1>
-      <div className=" bg-blue-100/30 p-4 m-2 flex gap-2 flex-col">
-        <div>姓名：{userInfo.name}</div>
-        <div>电话：{userInfo.phone}</div>
-        <div>班级：{userInfo.class ?? "--"}</div>
-        <div>个人简介：</div>
-        {userInfo.description && (
-          <article className=" ml-8 mt-4">
-            {userInfo.description.split("\n").map((slice, index) => {
-              return <p key={index}>{slice}</p>;
-            })}
-          </article>
-        )}
-        {userInfo.attachmentUrl && (
-          <div>
-            附件：
-            <a href={userInfo.attachmentUrl}>
-              <FileOutlined />
-              附件
-            </a>
-          </div>
-        )}
-      </div>
+      {userInfo && (
+        <div className=" bg-blue-100/30 p-4 m-2 flex gap-2 flex-col">
+          <div>姓名：{userInfo.name}</div>
+          <div>电话：{userInfo.phone}</div>
+          <div>班级：{userInfo.class ?? "--"}</div>
+          <div>个人简介：</div>
+          {userInfo.description && (
+            <article className=" ml-8 mt-4">
+              {userInfo.description.split("\n").map((slice, index) => {
+                return <p key={index}>{slice}</p>;
+              })}
+            </article>
+          )}
+          {userInfo.attachmentUrl && (
+            <div>
+              附件：
+              <a href={userInfo.attachmentUrl}>
+                <FileOutlined />
+                附件
+              </a>
+            </div>
+          )}
+        </div>
+      )}
       <Space className=" ml-2">
         <Button onClick={logout}>退出登录</Button>
       </Space>
