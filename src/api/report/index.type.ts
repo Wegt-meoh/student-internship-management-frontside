@@ -1,4 +1,4 @@
-import { UserInfoResponseType } from "@/types/user/info";
+import { UserInfoResponseType } from "../user/index.type";
 
 export type ReportResponseVo = {
   id: number;

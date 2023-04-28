@@ -12,7 +12,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [buttonDisable, setButtonDisable] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [postId, setPostId] = useState();
+  const [postId, setPostId] = useState<number>();
 
   async function fetcheTableData() {
     setLoading(true);
@@ -48,7 +48,7 @@ export default function Page() {
           setModalOpen(false);
         }}
       >
-        {postId && <PostDetail postId={postId} />}
+        {postId && <PostDetail postId={postId + ""} />}
       </Modal>
       <Table
         loading={loading}

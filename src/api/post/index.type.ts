@@ -1,6 +1,6 @@
-import { UserInfoResponseType } from "@/types/user/info";
 import { ReportResponseVo } from "../report/index.type";
 import { TaskResponseVo } from "../task/index.type";
+import { UserInfoResponseType } from "../user/index.type";
 
 export type PostResponseVo = {
   id: number;

@@ -1,4 +1,3 @@
-import Navigation from "@/ui/Navigation";
 import NavigationContainer from "@/ui/NavigationContainer";
 import { Metadata } from "next";
 
