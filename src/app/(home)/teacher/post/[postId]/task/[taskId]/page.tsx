@@ -13,7 +13,6 @@ import { transformDate } from "@/utils/date.transform";
 import { FileZipOutlined, FormOutlined } from "@ant-design/icons";
 import {
   Button,
-  Input,
   InputNumber,
   List,
   message,
@@ -22,7 +21,7 @@ import {
   Space,
 } from "antd";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 export default function Page({
   params,
@@ -37,7 +36,7 @@ export default function Page({
   const [inputValue, setInputValue] = useState<number | undefined>();
   const router = useRouter();
 
-  async function fetchData() {
+  const fetchData = useCallback(async () => {
     Promise.all([
       findAllReportUnderTheTask(+taskId),
       findOneTaskById(+taskId),
@@ -45,11 +44,11 @@ export default function Page({
       setListData(res1);
       setTaskInfo(res2);
     });
-  }
+  }, [taskId]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   if (!taskInfo || !listData) return <div>loading...</div>;
 
@@ -161,6 +160,7 @@ export default function Page({
               <List.Item
                 actions={[
                   <Popconfirm
+                    key={item.id}
                     showCancel={false}
                     icon={<FormOutlined />}
                     title={"评分"}

@@ -107,8 +107,12 @@ export default function Page() {
         }
       >
         <Form form={userInfoForm}>
-          <Form.Item label="个人简介" name="description">
-            <Input.TextArea defaultValue={userInfo.description ?? undefined} />
+          <Form.Item
+            label="个人简介"
+            name="description"
+            initialValue={userInfo.description ?? undefined}
+          >
+            <Input.TextArea />
           </Form.Item>
           <Upload
             fileList={fileList}

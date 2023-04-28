@@ -3,7 +3,7 @@ import { findAllStudentUnderThePost } from "@/api/post";
 import { FindAllStudentUnderThePostResponseVo } from "@/api/post/index.type";
 import { HomeTwoTone, PhoneTwoTone } from "@ant-design/icons";
 import { List, Space } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { postId: string } }) {
   const { postId } = params;
@@ -11,16 +11,16 @@ export default function Page({ params }: { params: { postId: string } }) {
     useState<FindAllStudentUnderThePostResponseVo>([]);
   const [loading, setLoading] = useState(true);
 
-  async function fetchListData() {
+  const fetchListData = useCallback(async () => {
     setLoading(true);
     const data = await findAllStudentUnderThePost(+postId);
     setListData(data);
     setLoading(false);
-  }
+  }, [postId]);
 
   useEffect(() => {
     fetchListData();
-  }, []);
+  }, [fetchListData]);
 
   return (
     <div className=" bg-white px-4">

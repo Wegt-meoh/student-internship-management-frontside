@@ -7,7 +7,7 @@ import { transformDate } from "@/utils/date.transform";
 import { getToken } from "@/utils/token.util";
 import { FileOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button, message, Modal, Space, Upload, UploadFile } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { taskId: string } }) {
   const { taskId } = params;
@@ -17,16 +17,16 @@ export default function Page({ params }: { params: { taskId: string } }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [buttonDisable, setButtonDisable] = useState(false);
 
-  async function fetchData() {
+  const fetchData = useCallback(async () => {
     const res1 = await findOneTaskById(+taskId);
     setTaskInfo(res1);
     const res2 = await findUserReportUnderTheTask(+taskId);
     setReportInfo(res2);
-  }
+  }, [taskId]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   if (!taskInfo || !reportInfo) return <div>loading...</div>;
 

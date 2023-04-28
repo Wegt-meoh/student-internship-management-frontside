@@ -9,7 +9,7 @@ export default function PostDetail({ postId }: { postId: string }) {
     findPostById(+postId).then((res) => {
       setPostInfo(res);
     });
-  }, []);
+  }, [postId]);
 
   if (!postInfo) return <div>loading...</div>;
 

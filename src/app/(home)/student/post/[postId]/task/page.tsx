@@ -32,7 +32,7 @@ export default function Page({ params }: { params: { postId: string } }) {
       setListData(res);
       setLoading(false);
     });
-  }, []);
+  }, [postId]);
 
   return (
     <div className=" bg-white px-4">

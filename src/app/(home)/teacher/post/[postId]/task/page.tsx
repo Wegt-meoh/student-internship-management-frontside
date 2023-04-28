@@ -22,7 +22,7 @@ import {
   UploadFile,
 } from "antd";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { postId: string } }) {
   const { postId } = params;
@@ -42,12 +42,12 @@ export default function Page({ params }: { params: { postId: string } }) {
   });
   const [buttonDisable, setButtonDisable] = useState(false);
 
-  async function fetchListData() {
+  const fetchListData = useCallback(async () => {
     setLoading(true);
     const data = await findAllTaskUnderThePost(+postId);
     setListData(data);
     setLoading(false);
-  }
+  }, [postId]);
 
   async function handleSubmit() {
     const result = await form.validateFields();
@@ -68,7 +68,7 @@ export default function Page({ params }: { params: { postId: string } }) {
 
   useEffect(() => {
     fetchListData();
-  }, []);
+  }, [fetchListData]);
 
   return (
     <div className=" bg-white px-4">
@@ -156,6 +156,7 @@ export default function Page({ params }: { params: { postId: string } }) {
             <List.Item
               actions={[
                 <Link
+                  key={item.id}
                   href={`/teacher/post/${postId}/task/${item.id}`}
                   className="hover:underline"
                 >
