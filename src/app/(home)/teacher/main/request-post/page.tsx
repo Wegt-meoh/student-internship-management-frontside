@@ -6,6 +6,7 @@ import {
 } from "@/api/requestPost";
 import { FindAllRequestPostUnderTheTeacherResponseVo } from "@/api/requestPost/index.type";
 import { RequestPostStatus } from "@/constants/RequestPostStatus.enum";
+import StudentInfo from "@/ui/StudentInfo";
 import {
   CheckSquareTwoTone,
   CloseSquareTwoTone,
@@ -13,7 +14,7 @@ import {
   HomeTwoTone,
   ToolTwoTone,
 } from "@ant-design/icons";
-import { Button, List, message, Radio, Select, Space } from "antd";
+import { List, message, Modal, Radio, Select, Space } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -29,6 +30,8 @@ export default function Page() {
     }
     return item.status === radioValue;
   });
+  const [modalOpen, setModalOpen] = useState(false);
+  const [userId, setUserId] = useState<number>();
 
   async function fetchListData() {
     setListLoading(true);
@@ -60,6 +63,16 @@ export default function Page() {
 
   return (
     <div className=" px-4 bg-white">
+      <Modal
+        title="学生信息"
+        footer={null}
+        open={modalOpen}
+        onCancel={() => {
+          setModalOpen(false);
+        }}
+      >
+        {userId && <StudentInfo userId={userId} />}
+      </Modal>
       <List
         header={
           <div>
@@ -116,7 +129,17 @@ export default function Page() {
               ]}
             >
               <List.Item.Meta
-                title={"申请人：" + item.requestUser.name}
+                title={
+                  <span
+                    className=" hover:underline hover:cursor-pointer"
+                    onClick={() => {
+                      setModalOpen(true);
+                      setUserId(item.requestUser.id);
+                    }}
+                  >
+                    申请人： {item.requestUser.name}
+                  </span>
+                }
                 description={"班级：" + item.requestUser.class}
               />
               <Space>

@@ -12,6 +12,12 @@ export function requestUserInfo(): Promise<UserInfoResponseType> {
   });
 }
 
+export function getUserInfoById(userId: number): Promise<UserInfoResponseType> {
+  return request(`/user/info/${userId}`, true, {
+    method: "GET",
+  });
+}
+
 export function updateUserInfo(
   updateDto: UpdateUserInfoDto
 ): Promise<SuccResponseType> {

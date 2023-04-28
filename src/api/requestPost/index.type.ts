@@ -1,6 +1,6 @@
 import { RequestPostStatus } from "@/constants/RequestPostStatus.enum";
-import { UserInfoResponseType } from "@/types/user/info";
 import { PostResponseVo, PostWithCreatedUserVo } from "../post/index.type";
+import { UserInfoResponseType } from "../user/index.type";
 
 export type RequestPostResponseVo = {
   id: number;
