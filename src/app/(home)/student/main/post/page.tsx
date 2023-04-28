@@ -1,7 +1,7 @@
 "use client";
 import { findAllPostByUser } from "@/api/post";
 import { PostResponseVo } from "@/api/post/index.type";
-import { CompassOutlined, HomeTwoTone } from "@ant-design/icons";
+import { CompassOutlined, HomeTwoTone, InboxOutlined } from "@ant-design/icons";
 import { Card, Space } from "antd";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -21,7 +21,12 @@ export default function Page() {
     fetchPostData();
   }, []);
 
-  return (
+  return postData.length === 0 ? (
+    <Card className=" w-72 hover:bg-slate-50 hover:border-slate-400 transition-colors">
+      <InboxOutlined />
+      无岗位
+    </Card>
+  ) : (
     <div className=" flex gap-4 flex-wrap">
       {postData.map((post) => {
         return (

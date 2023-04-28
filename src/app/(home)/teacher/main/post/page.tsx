@@ -6,6 +6,7 @@ import {
   CompassOutlined,
   HomeOutlined,
   HomeTwoTone,
+  InboxOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
 import { Button, Card, Form, Input, message, Modal, Space } from "antd";
@@ -96,28 +97,34 @@ export default function Page() {
         >
           添加岗位
         </Button>
-
-        <div className=" flex gap-4 flex-wrap">
-          {postData.map((post) => {
-            return (
-              <Link key={post.id} href={`/teacher/post/${post.id}`}>
-                <Card className=" w-72 hover:bg-slate-50 hover:border-slate-400 transition-colors">
-                  <Space direction="vertical">
-                    <h1 className=" text-lg">{post.name}</h1>
-                    <Space>
-                      <CompassOutlined />
-                      {post.position}
+        {postData.length === 0 ? (
+          <Card className=" w-72 hover:bg-slate-50 hover:border-slate-400 transition-colors">
+            <InboxOutlined />
+            无岗位
+          </Card>
+        ) : (
+          <div className=" flex gap-4 flex-wrap">
+            {postData.map((post) => {
+              return (
+                <Link key={post.id} href={`/teacher/post/${post.id}`}>
+                  <Card className=" w-72 hover:bg-slate-50 hover:border-slate-400 transition-colors">
+                    <Space direction="vertical">
+                      <h1 className=" text-lg">{post.name}</h1>
+                      <Space>
+                        <CompassOutlined />
+                        {post.position}
+                      </Space>
+                      <Space>
+                        <HomeTwoTone />
+                        {post.company}
+                      </Space>
                     </Space>
-                    <Space>
-                      <HomeTwoTone />
-                      {post.company}
-                    </Space>
-                  </Space>
-                </Card>
-              </Link>
-            );
-          })}
-        </div>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </Space>
     </div>
   );
