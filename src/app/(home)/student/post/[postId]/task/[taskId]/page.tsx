@@ -61,6 +61,7 @@ export default function Page({ params }: { params: { taskId: string } }) {
   }
 
   const haveSubmit = reportInfo.length === 0 ? false : true;
+  const score = reportInfo[0]?.score;
 
   return (
     <>
@@ -99,12 +100,14 @@ export default function Page({ params }: { params: { taskId: string } }) {
         </Upload>
       </Modal>
       <div className="bg-white p-2">
-        <h1 className=" text-xl relative">
-          <span
-            className=" w-1 h-6 bg-slate-800 inline-block
-     relative top-1"
-          ></span>
-          <span> {taskInfo.title}</span>
+        <h1 className=" text-xl flex justify-between">
+          <div>
+            <span className=" w-1 h-6 bg-slate-800 inline-block relative top-1"></span>
+            <span> {taskInfo.title}</span>
+          </div>
+          <div className="mr-4 text-red-600">
+            {!score ? "未评分" : `${score}分`}
+          </div>
         </h1>
         <div className=" bg-blue-100/30 p-4 m-2 flex gap-2 flex-col">
           <div>发布时间：{transformDate(taskInfo.createDate)}</div>
@@ -130,9 +133,11 @@ export default function Page({ params }: { params: { taskId: string } }) {
                 <FileOutlined />
                 我的提交
               </a>
-              <Button danger onClick={handleReportDelete} size="small">
-                删除
-              </Button>
+              {!score && (
+                <Button danger onClick={handleReportDelete} size="small">
+                  删除
+                </Button>
+              )}
             </Space>
           ) : (
             <Button

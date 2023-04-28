@@ -76,6 +76,13 @@ export default function Page() {
           >
             <Input />
           </Form.Item>
+          <Form.Item
+            label="岗位描述"
+            name={"description"}
+            rules={[{ required: true, message: "岗位描述不能为空" }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
         </Form>
       </Modal>
       <Space className=" w-full" direction="vertical">

@@ -7,12 +7,14 @@ export type PostResponseVo = {
   name: string;
   position: string;
   company: string;
+  description: string;
 };
 
 export type createPostDtoType = {
   name: string;
   position: string;
   company: string;
+  description: string;
 };
 
 export type PostWithCreatedUserVo = PostResponseVo & {
