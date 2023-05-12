@@ -108,7 +108,7 @@ export default function Page() {
             }),
             filterSearch: true,
             onFilter: (value, record) => {
-              return record.name.includes(value + "");
+              return record.position.includes(value + "");
             },
           },
           {
@@ -116,7 +116,7 @@ export default function Page() {
             dataIndex: "company",
             filters: Array.from(
               tableData.reduce((set, item) => {
-                set.add(item.position);
+                set.add(item.company);
                 return set;
               }, new Set<string>())
             ).map((item) => {
@@ -127,7 +127,7 @@ export default function Page() {
             }),
             filterSearch: true,
             onFilter: (value, record) => {
-              return record.name.includes(value + "");
+              return record.company.includes(value + "");
             },
           },
           {
@@ -146,7 +146,7 @@ export default function Page() {
             }),
             filterSearch: true,
             onFilter: (value, record) => {
-              return record.name.includes(value + "");
+              return record.createdUser.name.includes(value + "");
             },
           },
           {
@@ -168,7 +168,9 @@ export default function Page() {
             }),
             filterSearch: true,
             onFilter: (value, record) => {
-              return record.name.includes(value + "");
+              return record.createdUser.facuties
+                ? record.createdUser.facuties.includes(value + "")
+                : true;
             },
             dataIndex: ["createdUser", "facuties"],
           },
